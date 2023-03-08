@@ -13,7 +13,7 @@ export const StyledPost = styled.div`
     margin-top: 43px;
     margin-bottom: 29px;
 
-div{
+form{
     display: flex;
     flex-direction: column;
     justify-content:space-evenly;
