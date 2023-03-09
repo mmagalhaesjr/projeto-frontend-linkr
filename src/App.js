@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SignIn } from "./components/SignIn/SignIn.js";
 import { SignUp } from "./components/SignUp/SignUp.js";
 import Provider from "./context/Provider.js";
 import TimelinePage from "./pages/TimelinePages/TimelinePage";
@@ -12,8 +13,9 @@ export default function App() {
             <Provider>
 
                 <Routes>
-                    <Route path="/timeline" element={<TimelinePage />} />
+                    <Route path="/" element={<SignIn />} />
                     <Route path="/sign-up" element={<SignUp />} />
+                    <Route path="/timeline" element={<TimelinePage />} />
                 </Routes>
 
             </Provider>
