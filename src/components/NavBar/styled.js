@@ -15,24 +15,6 @@ img{
     border-radius: 50%;
     margin: 0 15px 0 0;
 }
-h2{
-    text-align: center;
-    width: 105px;
-    font-family: Lato, sans-serif;
-    font-weight: 700;
-    font-size: 17px;
-    position: absolute;
-    top: 65px;
-    right: 0;
-    padding: 17px;
-    border-radius: 0 0 0 14px;
-    background-color: #171717;
-    color: #ffffff;
-    z-index: 3;
-    @media(max-width: 900px) {
-        font-size: 15px;
-    }
-}
 `;
 export const Logo = styled.h1`
 color: #ffffff;
@@ -50,4 +32,24 @@ position: fixed;
 top: 0;
 left: 0;
 opacity: 0%;
+`;
+export const LogOutBar = styled.div`
+position: absolute;
+top: 65px;
+right: 0;
+padding: 17px;
+border-radius: 0 0 0 14px;
+background-color: #171717;
+width: 110px;
+z-index: 3;
+h2{
+    text-align: center;
+    font-family: Lato, sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: #ffffff;
+    @media(max-width: 900px) {
+        font-size: 15px;
+    }
+}
 `;
