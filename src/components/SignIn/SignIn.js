@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HomeScreen} from '../HomeScreen/HomeScreen.js'
 import Context from '../../context/Context.js';
 import axios from "axios";
@@ -51,11 +51,13 @@ export function SignIn() {
             <Inputs>
                 <div>
                     <form onSubmit={login}>
-                        <input disabled={disable} onChange={(e) => setEmail(e.target.value)} value={email} type='email' placeholder="e-mail" name="email"></input>
-                        <input disabled={disable} onChange={(e) => setPassword(e.target.value)} value={password} type='password' placeholder="password" name="password"></input>
-                        <button disabled={disable} type="submit">Log in</button>
+                        <input data-test="email" disabled={disable} onChange={(e) => setEmail(e.target.value)} value={email} type='email' placeholder="e-mail" name="email"></input>
+                        <input data-test="password" disabled={disable} onChange={(e) => setPassword(e.target.value)} value={password} type='password' placeholder="password" name="password"></input>
+                        <button data-test="login-btn" disabled={disable} type="submit">Log in</button>
                     </form>
-                    <h1 onClick={() => navigate('/sign-up')}>First time? Create an account!</h1>
+                    <Link to={'/sign-up'} data-test="sign-up-link">
+                    <h1>First time? Create an account!</h1>
+                    </Link>
                 </div>
             </Inputs>
         </AllScreen>
