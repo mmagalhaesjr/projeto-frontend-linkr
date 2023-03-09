@@ -14,6 +14,7 @@ export function SignUp() {
 
     function validateForm(e) {
         e.preventDefault();
+        setDisable(true)
 
         const email = document.forms[0]["email"].value;
         const password = document.forms[0]["password"].value;
@@ -38,6 +39,7 @@ export function SignUp() {
                 }, 2000);
             })
             .catch((err) => {
+                setDisable(false)
                 if (err.response.status === 409) {
                     alert('Email inserido já está cadastrado.')
                 }
