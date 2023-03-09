@@ -13,12 +13,18 @@ export const StyledPost = styled.div`
     margin-top: 43px;
     margin-bottom: 29px;
 
+    @media (max-width:611px){
+       width: 100vw;
+    }
+
 form{
     display: flex;
     flex-direction: column;
     justify-content:space-evenly;
    
 }
+
+
 
 img{
     width: 53px;
@@ -50,6 +56,10 @@ export const StyledInput = styled.input`
     border:none;
     font-family: 'Lato', sans-serif; 
 
+    @media (max-width:526px){
+       width: 70vw;
+    }
+
 
 `
 
@@ -62,6 +72,10 @@ export const StyledButton = styled.button`
     color: #ffffff;
     position:relative;
     left:390px;
+
+    @media (max-width:611px){
+        left:40vw;
+    }
     
 
 

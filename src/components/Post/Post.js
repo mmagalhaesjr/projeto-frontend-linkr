@@ -20,8 +20,6 @@ export default function Post() {
                         
                         <img src="http://cbissn.ibict.br/images/phocagallery/galeria2/thumbs/phoca_thumb_l_image04_grd.png" alt="imagem" />
                     </StyledLink>
-                    
-                   
                 </div>
             </StyledPost>
       

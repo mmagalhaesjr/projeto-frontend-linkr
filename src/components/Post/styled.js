@@ -12,6 +12,8 @@ export const StyledPost = styled.div`
     margin-bottom: 16px;
     justify-content: space-around;
 
+    
+
 div{
     display: flex;
     flex-direction: column;
@@ -43,6 +45,17 @@ h3{
 
 }
 
+@media (max-width:611px){
+       width: 100vw;
+       h2{
+        font-size: 15px;
+       }
+       h3{
+        font-size: 15px;
+       }
+       
+    }
+
 
 `
 export const StyledLink = styled.section`
@@ -54,7 +67,8 @@ display: flex;
 align-items: center;
 color:#9B9595;
 padding-left:10px;
-;
+
+
 
 div{
 width: 303px;
@@ -66,8 +80,8 @@ img{
     height: 155px;
     border-radius: 0px 12px 13px 0px;
     margin-top: 0;
-    margin-left: 35px;
-    ;
+    margin-left: 37px;
+    
 }
 h2{
     font-size: 16px;
@@ -77,6 +91,8 @@ p{
     margin-bottom: 13px;
     font-size: 11px;
 }
+
+
 
 `
 
