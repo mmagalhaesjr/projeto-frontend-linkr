@@ -54,7 +54,7 @@ button{
     font-weight: 700;
     text-align: center;
     margin-top: 13px;
-    background-color: ${props => props.color ? '#bed7f7' : '#1877F2'};
+    background-color: #1877F2;
     border: none;
     border-radius: 5px;
     @media(max-width: 900px){
