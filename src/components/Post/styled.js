@@ -1,7 +1,25 @@
 import styled from "styled-components";
 
 
+export const StyledLefDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 11px;
+    color: #FFFFFF;
+    width: 60px;
+`
 
+export const StyledRightDiv = styled.div`
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #FFFFFF;
+    margin: auto;
+`
 
 export const StyledPost = styled.div`
     width: 611px;
@@ -12,15 +30,21 @@ export const StyledPost = styled.div`
     margin-bottom: 16px;
     justify-content: space-around;
 
-    
+a{
+    font-family: 'Lato', sans-serif; 
+    font-weight:400;
+    font-size: 19px;
+    color: #FFFFFF;
+}
 
-div{
+.link{
     display: flex;
     flex-direction: column;
     justify-content:space-evenly;
-    width: 503px;
-    
+    width: 503px;    
 }
+
+
 
 img{
     width: 53px;
@@ -58,6 +82,12 @@ h3{
 
 
 `
+export const StyledIcon = styled.div`
+      color: ${props => props.likedByUser ? "red" : "#FFFFFF"};
+      font-size: 20px;
+      margin-top: 19px;
+`
+
 export const StyledLink = styled.section`
 width: 503px;
 height: 155px;
