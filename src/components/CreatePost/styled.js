@@ -1,8 +1,5 @@
 import styled from "styled-components";
 
-
-
-
 export const StyledPost = styled.div`
     width: 611px;
     height: 209px;

@@ -6,7 +6,7 @@ export const Box = styled.div`
   width: 301px;
   border-radius: 16px;
   background-color: #171717;
-  margin-top: 151px;
+  margin-top: 157px;
 
   @media (max-width:900px){
        display: none;
