@@ -1,5 +1,12 @@
 import styled from "styled-components";
 
+
+export const StyledMain = styled.main`
+ display: flex;
+ justify-content: center;
+`;
+
+
 export const Container = styled.div`
   width: 99vw;
   height: auto;
@@ -12,6 +19,7 @@ export const StyledContainer = styled.div`
   margin-right: 25px;
   width: 611px;
   flex-direction: column;
+ 
   h1 {
     font-size: 41px;
     color: #ffffff;

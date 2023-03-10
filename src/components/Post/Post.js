@@ -1,39 +1,53 @@
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { VscHeart, VscHeartFilled } from 'react-icons/vsc';
+import { StyledPost, StyledLink, StyledIcon, StyledLefDiv, StyledRightDiv } from './styled';
 
-import { StyledPost, StyledLink } from "./styled";
+export default function Post({ id, post, user_image, username, likes, likedByUser, post_url, likeDislikePost }) {
+  const [linkPreviewInfos, setLinkPreviewInfos] = useState({ title: "", images: [], description: "" });
 
-export default function Post({ id, post, user_image, username, post_url }) {
-  const [linkPreviewInfos, setLinkPreviewInfos] = useState({title: "", images: [], description: ""});
-
-  async function getLinkInfos() {
-    try {
-      const request = await axios.post(`${process.env.REACT_APP_API_URL}/url_fetch`, { url: post_url });
-      setLinkPreviewInfos(request.data);
-    } catch (_) {
-      setLinkPreviewInfos({
-        title: post_url,
-        images: [
-          "https://i.pinimg.com/originals/9d/1a/a7/9d1aa76c041ff6bf890a90aa92addd76.png"
-        ],
-        description: post_url,
-      });
+    async function getLinkInfos() {
+      try {
+        const request = await axios.post(`${process.env.REACT_APP_API_URL}/url_fetch`, { url: post_url });
+        setLinkPreviewInfos(request.data);
+      } catch (_) {
+        setLinkPreviewInfos({
+          title: post_url,
+          images: [
+            "https://i.pinimg.com/originals/9d/1a/a7/9d1aa76c041ff6bf890a90aa92addd76.png"
+          ],
+          description: post_url,
+        });
+      }
     }
-  }
+  
+    useEffect(() => {
+      getLinkInfos();
+    }, []);
 
-  useEffect(() => {
-    getLinkInfos();
-  }, []);
 
+ 
   return (
     <StyledPost>
-      <img src={user_image} alt="imagem" />
-      <div>
+      <StyledLefDiv>
+        <img src={user_image} alt="imagem" />
+        <StyledIcon likedByUser={likedByUser} onClick={()=> likeDislikePost(id, likedByUser)}>
+          {likedByUser === true
+            ?
+            <VscHeartFilled />
+            :
+            <VscHeart />
+          }
+          </StyledIcon>
+          <p>{likes}</p>
+      </StyledLefDiv>
+
+      <StyledRightDiv>
         <Link to={`/user/${id}`}>{username}</Link>
         <h3>{post}</h3>
         <StyledLink>
-          <div>
+          <div className="link">
             <h2>{linkPreviewInfos.title}</h2>
             <p>
               {linkPreviewInfos.description}
@@ -46,7 +60,7 @@ export default function Post({ id, post, user_image, username, post_url }) {
             alt="imagem"
           />
         </StyledLink>
-      </div>
+      </StyledRightDiv>
     </StyledPost>
   );
 }
