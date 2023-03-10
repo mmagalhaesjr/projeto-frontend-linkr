@@ -34,9 +34,7 @@ export function SignUp() {
             .then((res) => {
                 console.log(res.data)
                 setDisable(true)
-                setTimeout(() => {
-                    navigate('/')
-                }, 2000);
+                navigate('/')
             })
             .catch((err) => {
                 setDisable(false)
@@ -64,7 +62,7 @@ export function SignUp() {
                         <button data-test="sign-up-btn" disabled={disable} type="submit">Sign Up</button>
                     </form>
                     <Link to={'/'} data-test="login-link">
-                    <h1>Switch back to log in</h1>
+                        <h1>Switch back to log in</h1>
                     </Link>
                 </div>
             </Inputs>

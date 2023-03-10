@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { StyledContainer } from "./styled";
 import CreatePost from "../../components/CreatePost/CreatePost";
 import NavBar from "../../components/NavBar/NavBar";
+
 import Post from "../../components/Post/Post";
 import Context from "../../context/Context";
 
@@ -41,6 +42,7 @@ export default function TimelinePage() {
         <CreatePost />
         {posts && posts.length > 0 && posts.map(post => <Post key={post.id} id={post.id} post={post.post} user_image={post.user_image} username={post.username} post_url={post.post_url}></Post>)}
       </StyledContainer>
+
     </>
   );
 }

@@ -9,7 +9,7 @@ export default function NavBar() {
 
     return (
         <Bar>
-            <Logo>linkr</Logo>
+            <Logo onClick={()=>navigate("/timeline")} >linkr</Logo>
             <div>
                 {!open && <VscChevronUp
                     size={30}
