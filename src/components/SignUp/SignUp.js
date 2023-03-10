@@ -22,7 +22,7 @@ export function SignUp() {
         const image = document.forms[0]["image"].value;
 
         if (email === '' || password === '' || username === '' || image === '') {
-            alert('Por favor, preencha todos os campos obrigatórios.')
+            alert('Please fill in all required fields.')
             return false;
         }
 
@@ -39,10 +39,10 @@ export function SignUp() {
             .catch((err) => {
                 setDisable(false)
                 if (err.response.status === 409) {
-                    alert('Email inserido já está cadastrado.')
+                    alert('The email entered is already registered.')
                 }
                 if (err.response.status === 400) {
-                    alert('Verifique se sua senha tem mais de 6 caracteres.')
+                    alert('Please make sure your password has more than 6 characters.')
                 }
 
             })

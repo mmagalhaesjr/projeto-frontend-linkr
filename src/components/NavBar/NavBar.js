@@ -23,7 +23,8 @@ export default function NavBar() {
             setAvatar(res.data.image)
         })
         .catch((err) => {
-            alert(err.message)
+            console.log(err)
+            alert(err.response.data)
         })
     }, [])
 

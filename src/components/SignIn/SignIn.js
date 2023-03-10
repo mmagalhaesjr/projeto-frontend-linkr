@@ -19,7 +19,7 @@ export function SignIn() {
         const email = document.forms[0]["email"].value;
         const password = document.forms[0]["password"].value;
         if (email === '' || password === '') {
-            alert('Por favor, preencha todos os campos obrigatórios.')
+            alert('Please fill in all required fields.')
             setDisable(false)
             return false;
         }
@@ -39,7 +39,7 @@ export function SignIn() {
                 console.log(err)
                 setDisable(false)
                 if (err.response.status === 401) {
-                    alert('Email ou senha incorretos.')
+                    alert('Incorrect email or password.')
                 }
             })
 
