@@ -1,30 +1,52 @@
-import { StyledPost, StyledLink } from './styled';
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
+import { StyledPost, StyledLink } from "./styled";
 
+export default function Post({ id, post, user_image, username, post_url }) {
+  const [linkPreviewInfos, setLinkPreviewInfos] = useState({title: "", images: [], description: ""});
 
-export default function Post() {
-    return (
-        
-            <StyledPost>
-                <img src="http://cbissn.ibict.br/images/phocagallery/galeria2/thumbs/phoca_thumb_l_image04_grd.png" alt="imagem" />
-                <div>
-                    <h2>Juvenal Juvêncio</h2>
-                    <h3>Muito maneiro esse tutorial de Material UI com React, deem uma olhada!</h3>
-                    <StyledLink>
-                        <div>
-                            <h2>Como aplicar o Material UI em um projeto React</h2>
-                            <p>Hey! I have moved this tutorial to my personal blog. Same content, 
-                            new location. Sorry about making you click through to another page.</p>
-                            <p>https://medium.com/@pshrmn/a-simple-react-router</p>
-                        </div>
-                        
-                        <img src="http://cbissn.ibict.br/images/phocagallery/galeria2/thumbs/phoca_thumb_l_image04_grd.png" alt="imagem" />
-                    </StyledLink>
-                </div>
-            </StyledPost>
-      
+  async function getLinkInfos() {
+    try {
+      const request = await axios.post(`${process.env.REACT_APP_API_URL}/url_fetch`, { url: post_url });
+      setLinkPreviewInfos(request.data);
+    } catch (_) {
+      setLinkPreviewInfos({
+        title: post_url,
+        images: [
+          "https://i.pinimg.com/originals/9d/1a/a7/9d1aa76c041ff6bf890a90aa92addd76.png"
+        ],
+        description: post_url,
+      });
+    }
+  }
 
+  useEffect(() => {
+    getLinkInfos();
+  }, []);
 
+  return (
+    <StyledPost>
+      <img src={user_image} alt="imagem" />
+      <div>
+        <Link to={`/user/${id}`}>{username}</Link>
+        <h3>{post}</h3>
+        <StyledLink>
+          <div>
+            <h2>{linkPreviewInfos.title}</h2>
+            <p>
+              {linkPreviewInfos.description}
+            </p>
+            <p>{post_url}</p>
+          </div>
 
-    )
+          <img
+            src={linkPreviewInfos.images.length > 0 ? linkPreviewInfos.images[Math.floor(Math.random() * linkPreviewInfos.images.length)] : "https://i.pinimg.com/originals/9d/1a/a7/9d1aa76c041ff6bf890a90aa92addd76.png"}
+            alt="imagem"
+          />
+        </StyledLink>
+      </div>
+    </StyledPost>
+  );
 }
