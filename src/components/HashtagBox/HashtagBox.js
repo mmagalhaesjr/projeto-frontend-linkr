@@ -1,18 +1,19 @@
 import { Box, Diviser, StyledLink, Title } from "./styled";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import Context from "../../context/Context";
 
 export default function HashtagBox() {
   const [data, setData] = useState([]);
 
-  const token = localStorage.getItem('token')
+  const {token} = useContext(Context); 
 
   useEffect(() => {
     const url = `${process.env.REACT_APP_API_URL}/hashtag`;
 
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token || localStorage.getItem('token')}`,
       },
     };
     axios
@@ -26,11 +27,11 @@ export default function HashtagBox() {
   }, [token]);
 
   return (
-    <Box>
+    <Box data-test="trending">
       <Title>trending</Title>
       <Diviser />
       {data?.map((el,i) => (
-        <StyledLink key={i} to={`/hashtag/${el}`}># {el}</StyledLink>
+        <StyledLink data-test="hashtag" key={i} to={`/hashtag/${el}`}># {el}</StyledLink>
       ))}
     </Box>
   );
