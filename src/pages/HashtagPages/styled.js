@@ -11,7 +11,7 @@ export const Title = styled.h1`
   font-size: 41px;
   color: #ffffff;
   font-family: "Oswald", sans-serif;
-  margin: 71px 0 40px;
+  margin: 75px 0 42px;
 
 `;
 
@@ -19,5 +19,9 @@ export const LeftContent = styled.div`
   width: auto;
   height: auto;
   margin-right: 25px;
+
+  @media (max-width:900px){
+       margin: auto;
+    }
 `;
 

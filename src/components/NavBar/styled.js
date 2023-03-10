@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Bar = styled.div`
-width: 101%;
+width: 100%;
 height: 72px;
 background-color: #151515;
 display: flex;
@@ -21,6 +21,7 @@ color: #ffffff;
 font-family: Passion One, sans-serif;
 font-weight: 700;
 font-size: 49px;
+cursor: pointer;
 @media(max-width: 900px){
     font-size: 45px;
 }
