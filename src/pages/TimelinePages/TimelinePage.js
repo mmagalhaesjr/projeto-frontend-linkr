@@ -7,6 +7,7 @@ import NavBar from "../../components/NavBar/NavBar";
 import Post from "../../components/Post/Post";
 import Context from "../../context/Context";
 import HashtagBox from '../../components/HashtagBox/HashtagBox';
+import { checkToken } from '../../components/CheckToken/CheckToken.js';
 
 export default function TimelinePage() {
   const navigate = useNavigate();
@@ -16,12 +17,12 @@ export default function TimelinePage() {
   const [loading, setLoading] = useState(false)
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token || localStorage.getItem('token')}`,
     }
   };
-  
+
   async function getAllUsersPosts() {
-    
+
     try {
       const request = await axios.get(`${process.env.REACT_APP_API_URL}/posts`, config);
       setPosts(request.data);
@@ -35,6 +36,11 @@ export default function TimelinePage() {
   }
 
   useEffect(() => {
+    const tokenExists = checkToken();
+    if (!tokenExists) {
+      navigate('/');
+      alert('Faça o login para acessar essa rota.')
+    }
     setLoading(true);
     getAllUsersPosts();
   }, []);
@@ -63,22 +69,23 @@ export default function TimelinePage() {
         <StyledContainer>
           <h1>timeline</h1>
           <CreatePost getAllUsersPosts={getAllUsersPosts} />
-        {loading && <h3>Loading...</h3>}
-        {posts && posts.length > 0 && posts.map(post => 
-        <Post 
-        key={post.id} 
-        id={post.id} 
-        post={post.post} 
-        user_image={post.user_image} 
-        username={post.username} 
-        likes={post.likes} 
-        likedByUser={post.id_liked ? post.id_liked.includes(userId) : false} 
-        post_url={post.post_url} 
-        likeDislikePost={likeDislikePost}>
+          {loading && <h3>Loading...</h3>}
+          {posts && posts.length > 0 && posts.map(post =>
+            <Post
+              key={post.id}
+              id={post.id}
+              post={post.post}
+              user_image={post.user_image}
+              username={post.username}
+              likes={post.likes}
+              likedByUser={post.id_liked ? post.id_liked.includes(userId) : false}
+              post_url={post.post_url}
+              likeDislikePost={likeDislikePost}
+              usersLiked={post.names_liked}>
 
-        </Post>)}
-        {posts.length === 0 && loading === false && <h3>There are no posts yet</h3>}
-         
+            </Post>)}
+          {posts.length === 0 && loading === false && <h3>There are no posts yet</h3>}
+
         </StyledContainer>
         <HashtagBox />
 

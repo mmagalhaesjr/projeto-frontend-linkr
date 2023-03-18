@@ -10,7 +10,7 @@ export default function CreatePost({ getAllUsersPosts }) {
   const { token } = useContext(Context);
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token || localStorage.getItem('token')}`,
     },
   };
 

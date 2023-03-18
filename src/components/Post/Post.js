@@ -3,32 +3,42 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ReactTagify } from "react-tagify";
 import { VscHeart, VscHeartFilled } from "react-icons/vsc";
-import {
-  StyledPost,
-  StyledLink,
-  StyledIcon,
-  StyledLefDiv,
-  StyledRightDiv,
-} from "./styled";
+import { StyledPost, StyledLink, StyledIcon, StyledLefDiv, StyledRightDiv } from "./styled";
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css'
 
-export default function Post({
-  id,
-  post,
-  user_image,
-  username,
-  likes,
-  likedByUser,
-  usersLiked,
-  post_url,
-  likeDislikePost,
-}) {
+export default function Post(props) {
+  const { id, post, user_image, username, likes, likedByUser, usersLiked, post_url, likeDislikePost } = props
+  const navigate = useNavigate();
+  let listLikes = "";
   const [linkPreviewInfos, setLinkPreviewInfos] = useState({
     title: "",
     images: [],
     description: "",
   });
 
-  const navigate = useNavigate();
+  if (usersLiked) {
+    if (likedByUser === false) {
+      if (usersLiked.length > 2) {
+        listLikes = usersLiked[0] + ", " + usersLiked[1] + " e outras " + (usersLiked.length - 2) + " pessoas";
+      } else if (usersLiked.length === 2) {
+        listLikes = usersLiked[0] + " e " + usersLiked[1];
+      } else if (usersLiked.length === 2) {
+        listLikes = usersLiked[0];
+      }
+    }
+    if (likedByUser === true) {
+      if (usersLiked.length === 1) {
+        listLikes = "Você";
+      } else if (usersLiked.length === 2) {
+        listLikes = "Você e " + usersLiked[0];
+      } else if (usersLiked.length > 2) {
+        listLikes = "Você, " + usersLiked[1] + " e outras " + (usersLiked.length - 2) + " pessoas";
+      }
+    }
+
+
+  }
 
   async function getLinkInfos() {
     try {
@@ -68,14 +78,20 @@ export default function Post({
         >
           {likedByUser === true ? <VscHeartFilled /> : <VscHeart />}
         </StyledIcon>
-        <p>{likes} likes</p>
+      
+          <p data-tooltip-id={id} className="like-count" data-tooltip-content={listLikes} data-tooltip-variant="light">
+            {likes} likes
+          </p>
+          <Tooltip id={id} place='bottom' style={{ 'font-size': '11px' }} />
+        
+
       </StyledLefDiv>
 
       <StyledRightDiv>
         <Link to={`/user/${id}`}>{username}</Link>
         {post !== "" &&
           <h3>{post}</h3>
-          }
+        }
         <ReactTagify
           tagStyle={tagStyle}
           tagClicked={(tag) => {
@@ -83,8 +99,8 @@ export default function Post({
             return navigate(`/hashtag/${cutTag}`);
           }}
         >
-          
-          
+
+
         </ReactTagify>
         <StyledLink to={post_url} target="_blank">
           <div className="link">
