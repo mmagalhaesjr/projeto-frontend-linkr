@@ -18,6 +18,7 @@ export default function Post({
   username,
   likes,
   likedByUser,
+  usersLiked,
   post_url,
   likeDislikePost,
 }) {
@@ -67,11 +68,14 @@ export default function Post({
         >
           {likedByUser === true ? <VscHeartFilled /> : <VscHeart />}
         </StyledIcon>
-        <p>{likes}</p>
+        <p>{likes} likes</p>
       </StyledLefDiv>
 
       <StyledRightDiv>
         <Link to={`/user/${id}`}>{username}</Link>
+        {post !== "" &&
+          <h3>{post}</h3>
+          }
         <ReactTagify
           tagStyle={tagStyle}
           tagClicked={(tag) => {
@@ -79,9 +83,10 @@ export default function Post({
             return navigate(`/hashtag/${cutTag}`);
           }}
         >
-          <h3>{post}</h3>
+          
+          
         </ReactTagify>
-        <StyledLink>
+        <StyledLink to={post_url} target="_blank">
           <div className="link">
             <h2>{linkPreviewInfos.title}</h2>
             <p>{linkPreviewInfos.description}</p>
@@ -91,8 +96,8 @@ export default function Post({
             src={
               linkPreviewInfos.images.length > 0
                 ? linkPreviewInfos.images[
-                    Math.floor(Math.random() * linkPreviewInfos.images.length)
-                  ]
+                Math.floor(Math.random() * linkPreviewInfos.images.length)
+                ]
                 : "https://i.pinimg.com/originals/9d/1a/a7/9d1aa76c041ff6bf890a90aa92addd76.png"
             }
             alt="imagem"

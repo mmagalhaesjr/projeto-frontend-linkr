@@ -1,5 +1,5 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-
 
 export const StyledLefDiv = styled.div`
     display: flex;
@@ -9,17 +9,10 @@ export const StyledLefDiv = styled.div`
     font-size: 11px;
     color: #FFFFFF;
     width: 60px;
+    padding-left: 20px;
 `
 
-export const StyledRightDiv = styled.div`
-    height: 230px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    font-size: 11px;
-    color: #FFFFFF;
-    margin: auto;
-`
+
 
 export const StyledPost = styled.div`
     width: 611px;
@@ -88,7 +81,7 @@ export const StyledIcon = styled.div`
       margin-top: 19px;
 `
 
-export const StyledLink = styled.section`
+export const StyledLink = styled(Link)`
 width: 503px;
 height: 155px;
 border: 1px solid #ffffff;
@@ -128,3 +121,13 @@ p{
 
 
 
+export const StyledRightDiv = styled.div`
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #FFFFFF;
+    margin: auto;
+
+`
