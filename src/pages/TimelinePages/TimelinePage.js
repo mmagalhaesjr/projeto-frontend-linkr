@@ -12,7 +12,8 @@ import { checkToken } from '../../components/CheckToken/CheckToken.js';
 export default function TimelinePage() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
-  const userId = 4 //apenas para teste. Receber essa info junto com token
+  const [userId, setUserId] = useState();
+  // const userId = 4 //apenas para teste. Receber essa info junto com token
   const { token, setToken } = useContext(Context);
   const [loading, setLoading] = useState(false)
   const config = {
@@ -41,8 +42,23 @@ export default function TimelinePage() {
       navigate('/');
       alert('Faça o login para acessar essa rota.')
     }
-    setLoading(true);
-    getAllUsersPosts();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token || localStorage.getItem('token')}`,
+      },
+    };
+
+    axios.get(`${process.env.REACT_APP_API_URL}/me`, config)
+      .then((res) => {
+        setUserId(res.data.id)
+        setLoading(true);
+        getAllUsersPosts();
+      })
+      .catch((err) => {
+        console.log(err)
+        alert(err.response.data)
+      })
   }, []);
 
 
