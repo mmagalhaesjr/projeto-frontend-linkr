@@ -26,6 +26,15 @@ export const StyledContainer = styled.div`
     font-family: "Oswald", sans-serif;
     margin-top: 78px;
   }
+
+  > h3{
+    color: #ffffff;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 70px;
+    opacity: 50%;
+
+  }
   @media (max-width:900px){
        margin: auto;
     }

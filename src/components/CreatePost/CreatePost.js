@@ -1,15 +1,16 @@
 import { StyledPost, StyledButton, StyledInput } from "./styled";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
+import Context from '../../context/Context.js';
 
-export default function CreatePost() {
+export default function CreatePost({ getAllUsersPosts }) {
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
   const [load, setLoad] = useState(false);
-  const token = "";
+  const { token } = useContext(Context);
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token || localStorage.getItem('token')}`,
     },
   };
 
@@ -29,6 +30,7 @@ export default function CreatePost() {
       setLoad(false);
       setUrl("");
       setDescription("");
+      getAllUsersPosts();
     });
     promise.catch((err) => {
       alert("There was an error publishing your link");
@@ -58,7 +60,6 @@ export default function CreatePost() {
           placeholder="Awesome article about #javascript"
           onChange={(e) => setDescription(e.target.value)}
           disabled={load}
-          required
         ></StyledInput>
         <StyledButton disabled={load}>
           {load ? "Publishing" : "Publish"}
