@@ -40,7 +40,7 @@ export default function CreatePost({ getAllUsersPosts, avatar }) {
   }
 
   return (
-    <StyledPost>
+    <StyledPost data-test="publish-box">
       <img
         src={avatar}
         alt="imagem"
@@ -54,6 +54,7 @@ export default function CreatePost({ getAllUsersPosts, avatar }) {
           onChange={(e) => setUrl(e.target.value)}
           disabled={load}
           required
+          data-test="link"
         ></StyledInput>
         <StyledInput
           className="description"
@@ -61,8 +62,9 @@ export default function CreatePost({ getAllUsersPosts, avatar }) {
           placeholder="Awesome article about #javascript"
           onChange={(e) => setDescription(e.target.value)}
           disabled={load}
+          data-test="description"
         ></StyledInput>
-        <StyledButton disabled={load}>
+        <StyledButton disabled={load} data-test="publish-btn">
           {load ? "Publishing" : "Publish"}
         </StyledButton>
       </form>

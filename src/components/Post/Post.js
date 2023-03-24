@@ -5,16 +5,16 @@ import { useContext, useEffect, useState } from "react";
 import { ReactTagify } from "react-tagify";
 import { VscHeart, VscHeartFilled } from "react-icons/vsc";
 import {
-    StyledPost,
-    StyledLink,
-    StyledIcon,
-    StyledRightDiv,
-    StyledContainer,
-    StyledSendIcon,
-    StyledLeftDiv,
-    StyledCommentsContainer,
-    StyledNewComments,
-    StyledComment
+  StyledPost,
+  StyledLink,
+  StyledIcon,
+  StyledRightDiv,
+  StyledContainer,
+  StyledSendIcon,
+  StyledLeftDiv,
+  StyledCommentsContainer,
+  StyledNewComments,
+  StyledComment
 } from './styled';
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css'
@@ -95,7 +95,7 @@ export default function Post(props) {
   };
 
   async function sendComment() {
-    if(newComment){
+    if (newComment) {
       const body = { comment: newComment }
       const URL = `${process.env.REACT_APP_API_URL}/comment/${id}`
       try {
@@ -111,11 +111,12 @@ export default function Post(props) {
 
 
   return (
-    <StyledContainer key={id}>
+    <StyledContainer key={id} data-test="post">
       <StyledPost>
         <StyledLeftDiv>
           <img src={user_image} alt="imagem" />
           <StyledIcon
+            data-test="like-btn"
             likedByUser={likedByUser}
             onClick={() => likeDislikePost(id, likedByUser)}
           >
@@ -124,23 +125,23 @@ export default function Post(props) {
 
 
 
-          <p data-tooltip-id={id} className="like-count" data-tooltip-content={listLikes} data-tooltip-variant="light">
+          <p data-test="counter" data-tooltip-id={id} className="like-count" data-tooltip-content={listLikes} data-tooltip-variant="light">
             {likes} likes
           </p>
-          <Tooltip id={id} place='bottom' style={{ 'font-size': '11px' }} />
+          <Tooltip data-test="tooltip" id={id} place='bottom' style={{ 'font-size': '11px' }} />
 
-          <StyledIcon>
+          <StyledIcon data-test="comment-btn">
             <AiOutlineComment onClick={() => (msgAberto ? setMsgAberto(false) : setMsgAberto(true))} />
 
           </StyledIcon>
-          <p>{comments_count} comments
+          <p data-test="comment-counter">{comments_count} comments
           </p>
         </StyledLeftDiv>
 
         <StyledRightDiv>
-          <Link to={`/user/${id}`}>{username}</Link>
+          <Link to={`/user/${id}`} data-test="username">{username}</Link>
           {post !== "" &&
-            <h3>{post}</h3>
+            <h3 data-test="description" >{post}</h3>
           }
           <ReactTagify
             tagStyle={tagStyle}
@@ -150,7 +151,7 @@ export default function Post(props) {
             }}
           >
           </ReactTagify>
-          <StyledLink to={post_url} target="_blank">
+          <StyledLink to={post_url} target="_blank" data-test="link">
             <div className="link">
               <h2>{linkPreviewInfos.title}</h2>
               <p>{linkPreviewInfos.description}</p>
@@ -172,18 +173,18 @@ export default function Post(props) {
 
 
       {msgAberto &&
-        <StyledCommentsContainer>
+        <StyledCommentsContainer data-test="comment-box">
           {allcomments?.map((c) =>
-            <StyledComment key={c.id}>
+            <StyledComment key={c.id} data-test="comment">
               <img src={c.user_image} alt="imagem" />
               <div>
                 <div className="authorComment">
                   <h2>{c.username}</h2>
-                  {post_user_id === c.id_user 
-                  &&
-                  <h3>• post’s author</h3>
+                  {post_user_id === c.id_user
+                    &&
+                    <h3>• post’s author</h3>
                   }
-                  
+
                 </div>
 
                 <p>{c.comment}</p>
@@ -192,8 +193,8 @@ export default function Post(props) {
           )}
           <StyledNewComments>
             <img src={user_image} alt="imagem" />
-            <input placeholder="write a comment..." value={newComment} onChange={(e) => setNewComment(e.target.value)}></input>
-            <StyledSendIcon onClick={sendComment} />
+            <input data-test="comment-input" placeholder="write a comment..." value={newComment} onChange={(e) => setNewComment(e.target.value)}></input>
+            <StyledSendIcon data-test="comment-submit" onClick={sendComment} />
           </StyledNewComments>
         </StyledCommentsContainer>
       }

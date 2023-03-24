@@ -108,7 +108,7 @@ console.log(posts)
               >
 
             </Post>)}
-          {posts.length === 0 && loading === false && <h3>There are no posts yet</h3>}
+          {posts.length === 0 && loading === false && <h3 data-test="message">There are no posts yet</h3>}
 
         </StyledContainer>
         <HashtagBox />
