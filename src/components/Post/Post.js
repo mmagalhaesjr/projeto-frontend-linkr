@@ -1,9 +1,9 @@
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-
 import { ReactTagify } from "react-tagify";
 import { VscHeart, VscHeartFilled } from "react-icons/vsc";
+import { BiRepost } from 'react-icons/bi';
 import {
   StyledPost,
   StyledLink,
@@ -14,13 +14,15 @@ import {
   StyledLeftDiv,
   StyledCommentsContainer,
   StyledNewComments,
-  StyledComment
-} from './styled';
+  StyledComment,
+  RepostedBy,
+  BlockIfReposted
+} from './styled.js';
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css'
 import { AiOutlineComment } from "react-icons/ai";
 import Context from '../../context/Context.js';
-
+import Repost from '../Repost/Repost.js';
 
 
 
@@ -34,7 +36,7 @@ export default function Post(props) {
       Authorization: `Bearer ${token || localStorage.getItem('token')}`,
     }
   };
-  const { id, post, user_image, username, likes, likedByUser, usersLiked, post_url, likeDislikePost, comments_count, allcomments, post_user_id, getAllUsersPosts } = props
+  const { id, post, user_image, username, likes, likedByUser, usersLiked, post_url, likeDislikePost, comments_count, allcomments, post_user_id, getAllUsersPosts, reposts, repostedBy, userId, repostedById } = props
   const navigate = useNavigate();
   let listLikes = "";
   const [linkPreviewInfos, setLinkPreviewInfos] = useState({
@@ -112,7 +114,17 @@ export default function Post(props) {
 
   return (
     <StyledContainer key={id} data-test="post">
-      <StyledPost>
+      <StyledPost isReposted={repostedBy}>
+
+        {repostedBy && <BlockIfReposted />}
+
+        {repostedBy && <RepostedBy>
+
+          <BiRepost />
+          <h4>Re-posted by {repostedById === userId ? 'you' : repostedBy}</h4>
+          
+          </RepostedBy>}
+
         <StyledLeftDiv>
           <img src={user_image} alt="imagem" />
           <StyledIcon
@@ -136,6 +148,9 @@ export default function Post(props) {
           </StyledIcon>
           <p data-test="comment-counter">{comments_count} comments
           </p>
+
+          <Repost id={id} reposts={reposts} repostedBy={repostedBy} />
+
         </StyledLeftDiv>
 
         <StyledRightDiv>

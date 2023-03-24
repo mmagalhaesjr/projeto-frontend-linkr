@@ -105,6 +105,10 @@ console.log(posts)
               allcomments={post.allcomments}
               post_user_id={post.post_user_id}
               getAllUsersPosts={getAllUsersPosts}
+              reposts={post.reposts}
+              repostedBy={post.repostedByName}
+              userId={userId}
+              repostedById={post.repostedById}
               >
 
             </Post>)}

@@ -29,7 +29,11 @@ export const StyledPost = styled.div`
     background-color: #171717;
     border-radius: 16px;
     display: flex;
+    margin-bottom: 16px;
     justify-content: space-around;
+    position: relative;
+    margin-top: ${props => props.isReposted && '33px'};
+    box-shadow: ${props => props.isReposted && 'rgba(30, 30, 30, 1) 0px -25px, rgba(30, 30, 30, 1) 0px -20px, rgba(30, 30, 30, 1) 0px -15px, rgba(30, 30, 30, 1) 0px -10px, rgba(30, 30, 30, 1) 0px -5px'};
     
 
 a{
@@ -209,4 +213,37 @@ export const StyledRightDiv = styled.div`
     color: #FFFFFF;
     margin: auto;
 
-`
+`;
+
+export const RepostedBy = styled.div`
+background-color: #1E1E1E;
+color: #ffffff;
+font-size: 22px;
+position: absolute;
+width: 100%;
+height: 33px;
+border-radius: 16px 16px 0 0;
+box-shadow: #1E1E1E;
+top: -33px;
+left: 0;
+display: flex;
+box-sizing: border-box;
+padding: 6px;
+h4{
+    margin: 8px 0 0 8px;
+    color: #ffffff;
+    font-size: 10px;
+    font-family: Lato, sans-serif;
+    font-weight: 700;
+}
+`;
+
+export const BlockIfReposted = styled.div`
+position: absolute;
+top: 0;
+left: 0;
+background-color: hotpink;
+opacity: 0;
+width: 100%;
+height: 100%;
+`;
