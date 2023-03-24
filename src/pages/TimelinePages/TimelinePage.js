@@ -9,11 +9,13 @@ import Context from "../../context/Context";
 import HashtagBox from '../../components/HashtagBox/HashtagBox';
 import { checkToken } from '../../components/CheckToken/CheckToken.js';
 
+
+
 export default function TimelinePage() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [userId, setUserId] = useState();
-  // const userId = 4 //apenas para teste. Receber essa info junto com token
+  const [avatar, setAvatar] = useState('https://filestore.community.support.microsoft.com/api/images/6061bd47-2818-4f2b-b04a-5a9ddb6f6467?upload=true');
   const { token, setToken } = useContext(Context);
   const [loading, setLoading] = useState(false)
   const config = {
@@ -21,7 +23,7 @@ export default function TimelinePage() {
       Authorization: `Bearer ${token || localStorage.getItem('token')}`,
     }
   };
-
+console.log(posts)
   async function getAllUsersPosts() {
 
     try {
@@ -54,6 +56,7 @@ export default function TimelinePage() {
         setUserId(res.data.id)
         setLoading(true);
         getAllUsersPosts();
+        setAvatar(res.data.image)
       })
       .catch((err) => {
         console.log(err)
@@ -84,7 +87,7 @@ export default function TimelinePage() {
       <StyledMain>
         <StyledContainer>
           <h1>timeline</h1>
-          <CreatePost getAllUsersPosts={getAllUsersPosts} />
+          <CreatePost getAllUsersPosts={getAllUsersPosts} avatar={avatar}/>
           {loading && <h3>Loading...</h3>}
           {posts && posts.length > 0 && posts.map(post =>
             <Post
@@ -97,7 +100,12 @@ export default function TimelinePage() {
               likedByUser={post.id_liked ? post.id_liked.includes(userId) : false}
               post_url={post.post_url}
               likeDislikePost={likeDislikePost}
-              usersLiked={post.names_liked}>
+              usersLiked={post.names_liked}
+              comments_count={post.comments_count}
+              allcomments={post.allcomments}
+              post_user_id={post.post_user_id}
+              getAllUsersPosts={getAllUsersPosts}
+              >
 
             </Post>)}
           {posts.length === 0 && loading === false && <h3>There are no posts yet</h3>}

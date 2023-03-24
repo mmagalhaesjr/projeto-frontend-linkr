@@ -3,11 +3,12 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import Context from '../../context/Context.js';
 
-export default function CreatePost({ getAllUsersPosts }) {
+export default function CreatePost({ getAllUsersPosts, avatar }) {
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
   const [load, setLoad] = useState(false);
   const { token } = useContext(Context);
+  
   const config = {
     headers: {
       Authorization: `Bearer ${token || localStorage.getItem('token')}`,
@@ -41,7 +42,7 @@ export default function CreatePost({ getAllUsersPosts }) {
   return (
     <StyledPost>
       <img
-        src="http://cbissn.ibict.br/images/phocagallery/galeria2/thumbs/phoca_thumb_l_image04_grd.png"
+        src={avatar}
         alt="imagem"
       />
       <form onSubmit={publishPost}>
