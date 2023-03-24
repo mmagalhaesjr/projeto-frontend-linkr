@@ -3,11 +3,12 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import Context from '../../context/Context.js';
 
-export default function CreatePost({ getAllUsersPosts }) {
+export default function CreatePost({ getAllUsersPosts, avatar }) {
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
   const [load, setLoad] = useState(false);
   const { token } = useContext(Context);
+  
   const config = {
     headers: {
       Authorization: `Bearer ${token || localStorage.getItem('token')}`,
@@ -39,9 +40,9 @@ export default function CreatePost({ getAllUsersPosts }) {
   }
 
   return (
-    <StyledPost>
+    <StyledPost data-test="publish-box">
       <img
-        src="http://cbissn.ibict.br/images/phocagallery/galeria2/thumbs/phoca_thumb_l_image04_grd.png"
+        src={avatar}
         alt="imagem"
       />
       <form onSubmit={publishPost}>
@@ -53,6 +54,7 @@ export default function CreatePost({ getAllUsersPosts }) {
           onChange={(e) => setUrl(e.target.value)}
           disabled={load}
           required
+          data-test="link"
         ></StyledInput>
         <StyledInput
           className="description"
@@ -60,8 +62,9 @@ export default function CreatePost({ getAllUsersPosts }) {
           placeholder="Awesome article about #javascript"
           onChange={(e) => setDescription(e.target.value)}
           disabled={load}
+          data-test="description"
         ></StyledInput>
-        <StyledButton disabled={load}>
+        <StyledButton disabled={load} data-test="publish-btn">
           {load ? "Publishing" : "Publish"}
         </StyledButton>
       </form>

@@ -52,6 +52,7 @@ export const StyledInput = styled.input`
     border-radius: 5px;
     border:none;
     font-family: 'Lato', sans-serif; 
+    padding-left: 10px;
 
     @media (max-width:526px){
        width: 70vw;
