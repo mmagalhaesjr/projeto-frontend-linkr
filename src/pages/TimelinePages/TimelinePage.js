@@ -109,6 +109,7 @@ console.log(posts)
               repostedBy={post.repostedByName}
               userId={userId}
               repostedById={post.repostedById}
+              route={'timeline'}
               >
 
             </Post>)}

@@ -36,7 +36,7 @@ export default function Post(props) {
       Authorization: `Bearer ${token || localStorage.getItem('token')}`,
     }
   };
-  const { id, post, user_image, username, likes, likedByUser, usersLiked, post_url, likeDislikePost, comments_count, allcomments, post_user_id, getAllUsersPosts, reposts, repostedBy, userId, repostedById } = props
+  const { id, post, user_image, username, likes, likedByUser, usersLiked, post_url, likeDislikePost, comments_count, allcomments, post_user_id, getAllUsersPosts, reposts, repostedBy, userId, repostedById, route } = props
   const navigate = useNavigate();
   let listLikes = "";
   const [linkPreviewInfos, setLinkPreviewInfos] = useState({
@@ -149,7 +149,7 @@ export default function Post(props) {
           <p data-test="comment-counter">{comments_count} comments
           </p>
 
-          <Repost id={id} reposts={reposts} repostedBy={repostedBy} />
+          <Repost id={id} reposts={reposts} route={route} />
 
         </StyledLeftDiv>
 

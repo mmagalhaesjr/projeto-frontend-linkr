@@ -10,4 +10,10 @@ p{
     font-size: 11px;
     width: 50px;
 }
+button{
+    color: #ffffff;
+    font-size: 25px;
+    border: none;
+    background-color: rgba(0,0,0, 0);
+}
 `;

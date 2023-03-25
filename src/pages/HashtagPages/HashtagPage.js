@@ -97,6 +97,7 @@ export default function HashtagPage() {
             repostedBy={post.repostedByName}
             userId={userId}
             repostedById={post.repostedById}
+            route={'hashtag'}
           />)}
         </LeftContent>
         <HashtagBox />
