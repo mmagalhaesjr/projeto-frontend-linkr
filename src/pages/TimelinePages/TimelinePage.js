@@ -8,6 +8,7 @@ import Post from "../../components/Post/Post";
 import Context from "../../context/Context";
 import HashtagBox from '../../components/HashtagBox/HashtagBox';
 import { checkToken } from '../../components/CheckToken/CheckToken.js';
+import LoadButton from "../../components/LoadButton/LoadButton";
 
 export default function TimelinePage() {
   const navigate = useNavigate();
@@ -85,6 +86,7 @@ export default function TimelinePage() {
         <StyledContainer>
           <h1>timeline</h1>
           <CreatePost getAllUsersPosts={getAllUsersPosts} />
+          <LoadButton/>
           {loading && <h3>Loading...</h3>}
           {posts && posts.length > 0 && posts.map(post =>
             <Post
@@ -103,8 +105,7 @@ export default function TimelinePage() {
           {posts.length === 0 && loading === false && <h3>There are no posts yet</h3>}
 
         </StyledContainer>
-        <HashtagBox />
-
+        <HashtagBox getAllUsersPosts={getAllUsersPosts}/>
       </StyledMain>
 
 

@@ -12,7 +12,7 @@ export default function HashtagPage() {
 
   const navigate = useNavigate();
 
-  const {token,setToken} = useContext(Context)
+  const { token, setToken } = useContext(Context);
 
   async function listAllHashtagsPosts() {
     try {
@@ -37,18 +37,20 @@ export default function HashtagPage() {
   }, [hashtag]);
 
   function likeDislikePost(id, likedByUser) {
-
     if (likedByUser === false) {
-      const url = `${process.env.REACT_APP_API_URL}/post/${id}/like`
-      const promise = axios.post(url)
-      promise.then(() => listAllHashtagsPosts())
-      promise.catch(err => { console.log(err) })
-
+      const url = `${process.env.REACT_APP_API_URL}/post/${id}/like`;
+      const promise = axios.post(url);
+      promise.then(() => listAllHashtagsPosts());
+      promise.catch((err) => {
+        console.log(err);
+      });
     } else {
-      const url = `${process.env.REACT_APP_API_URL}/post/${id}/dislike`
-      const promise = axios.post(url,)
-      promise.then(() => listAllHashtagsPosts())
-      promise.catch(err => { console.log(err) })
+      const url = `${process.env.REACT_APP_API_URL}/post/${id}/dislike`;
+      const promise = axios.post(url);
+      promise.then(() => listAllHashtagsPosts());
+      promise.catch((err) => {
+        console.log(err);
+      });
     }
   }
 
@@ -58,7 +60,21 @@ export default function HashtagPage() {
       <Container>
         <LeftContent>
           <Title data-test="hashtag-title"># {hashtag}</Title>
-          {postsData && postsData.map(post => <Post data-test="post" key={post.id} id={post.id} post={post.post} user_image={post.user_image} username={post.username} likes={post.likesCount} likedByUser={false} post_url={post.post_url} likeDislikePost={likeDislikePost}/>)}
+          {postsData &&
+            postsData.map((post) => (
+              <Post
+                data-test="post"
+                key={post.id}
+                id={post.id}
+                post={post.post}
+                user_image={post.user_image}
+                username={post.username}
+                likes={post.likesCount}
+                likedByUser={false}
+                post_url={post.post_url}
+                likeDislikePost={likeDislikePost}
+              />
+            ))}
         </LeftContent>
         <HashtagBox />
       </Container>
