@@ -122,8 +122,8 @@ export default function Post(props) {
 
           <BiRepost />
           <h4>Re-posted by {repostedById === userId ? 'you' : repostedBy}</h4>
-          
-          </RepostedBy>}
+
+        </RepostedBy>}
 
         <StyledLeftDiv>
           <img src={user_image} alt="imagem" />
@@ -140,7 +140,10 @@ export default function Post(props) {
           <p data-test="counter" data-tooltip-id={id} className="like-count" data-tooltip-content={listLikes} data-tooltip-variant="light">
             {likes} likes
           </p>
-          <Tooltip data-test="tooltip" id={id} place='bottom' style={{ 'font-size': '11px' }} />
+          <div data-test="tooltip">
+            <Tooltip id={id} place='bottom' data-test="tooltip" style={{ 'font-size': '11px' }} />
+
+          </div>
 
           <StyledIcon data-test="comment-btn">
             <AiOutlineComment onClick={() => (msgAberto ? setMsgAberto(false) : setMsgAberto(true))} />
