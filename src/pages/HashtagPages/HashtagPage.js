@@ -6,13 +6,17 @@ import HashtagBox from "../../components/HashtagBox/HashtagBox";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Context from "../../context/Context";
+import { checkToken } from "../../components/CheckToken/CheckToken.js";
+
+
 export default function HashtagPage() {
   const { hashtag } = useParams();
   const [postsData, setPostsData] = useState([]);
 
   const navigate = useNavigate();
 
-  const { token, setToken } = useContext(Context);
+  const { token, setToken } = useContext(Context)
+  const [userId, setUserId] = useState();
 
   async function listAllHashtagsPosts() {
     try {
@@ -33,8 +37,29 @@ export default function HashtagPage() {
   }
 
   useEffect(() => {
-    listAllHashtagsPosts();
+    const tokenExists = checkToken();
+    if (!tokenExists) {
+      navigate('/');
+      alert('Faça o login para acessar essa rota.')
+    }
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token || localStorage.getItem('token')}`,
+      },
+    };
+
+    axios.get(`${process.env.REACT_APP_API_URL}/me`, config)
+      .then((res) => {
+        setUserId(res.data.id)
+        listAllHashtagsPosts();
+      })
+      .catch((err) => {
+        console.log(err)
+        alert(err.response.data)
+      })
   }, [hashtag]);
+
 
   function likeDislikePost(id, likedByUser) {
     if (likedByUser === false) {
@@ -60,21 +85,21 @@ export default function HashtagPage() {
       <Container>
         <LeftContent>
           <Title data-test="hashtag-title"># {hashtag}</Title>
-          {postsData &&
-            postsData.map((post) => (
-              <Post
-                data-test="post"
-                key={post.id}
-                id={post.id}
-                post={post.post}
-                user_image={post.user_image}
-                username={post.username}
-                likes={post.likesCount}
-                likedByUser={false}
-                post_url={post.post_url}
-                likeDislikePost={likeDislikePost}
-              />
-            ))}
+          {postsData && postsData.map(post => <Post data-test="post"
+            key={post.id}
+            id={post.id}
+            post={post.post}
+            user_image={post.user_image}
+            username={post.username}
+            likes={post.likesCount}
+            likedByUser={false}
+            post_url={post.post_url}
+            likeDislikePost={likeDislikePost}
+            reposts={post.reposts}
+            repostedBy={post.repostedByName}
+            userId={userId}
+            repostedById={post.repostedById}
+          />)}
         </LeftContent>
         <HashtagBox />
       </Container>
