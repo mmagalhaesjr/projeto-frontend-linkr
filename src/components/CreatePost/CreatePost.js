@@ -65,7 +65,7 @@ export default function CreatePost({ getAllUsersPosts, avatar }) {
           data-test="description"
         ></StyledInput>
         <StyledButton disabled={load} data-test="publish-btn">
-          {load ? "Publishing" : "Publish"}
+          {load ? "Publishing..." : "Publish"}
         </StyledButton>
       </form>
     </StyledPost>
