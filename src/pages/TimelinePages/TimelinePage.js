@@ -151,7 +151,7 @@ export default function TimelinePage() {
               usersLiked={post.names_liked}
               comments_count={post.comments_count}
               allcomments={post.allcomments}
-              post_user_id={post.post.id_user}
+              post_id_user={post.id_user}
               getAllUsersPosts={getAllUsersPosts}
               reposts={post.reposts}
               repostedBy={post.repostedByName}
