@@ -48,7 +48,13 @@ export default function Post(props) {
   if (usersLiked) {
     if (likedByUser === false) {
       if (usersLiked.length > 2) {
-        listLikes = usersLiked[0] + ", " + usersLiked[1] + " e outras " + (usersLiked.length - 2) + " pessoas";
+        listLikes =
+          usersLiked[0] +
+          ", " +
+          usersLiked[1] +
+          " e outras " +
+          (usersLiked.length - 2) +
+          " pessoas";
       } else if (usersLiked.length === 2) {
         listLikes = usersLiked[0] + " e " + usersLiked[1];
       } else if (usersLiked.length === 2) {
@@ -61,11 +67,14 @@ export default function Post(props) {
       } else if (usersLiked.length === 2) {
         listLikes = "Você e " + usersLiked[0];
       } else if (usersLiked.length > 2) {
-        listLikes = "Você, " + usersLiked[1] + " e outras " + (usersLiked.length - 2) + " pessoas";
+        listLikes =
+          "Você, " +
+          usersLiked[1] +
+          " e outras " +
+          (usersLiked.length - 2) +
+          " pessoas";
       }
     }
-
-
   }
 
   async function getLinkInfos() {

@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Context from "../../context/Context";
 
-export default function HashtagBox() {
+export default function HashtagBox({getAllUsersPosts}) {
   const [data, setData] = useState([]);
 
   const {token} = useContext(Context); 
@@ -24,7 +24,7 @@ export default function HashtagBox() {
       .catch((err) => {
         console.log(err.response.message);
       });
-  }, [token]);
+  }, [token,getAllUsersPosts]);
 
   return (
     <Box data-test="trending">
