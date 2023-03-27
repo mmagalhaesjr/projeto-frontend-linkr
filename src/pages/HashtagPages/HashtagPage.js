@@ -7,6 +7,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Context from "../../context/Context";
 import { checkToken } from "../../components/CheckToken/CheckToken.js";
+import InfiniteScroll from 'react-infinite-scroller';
 
 
 export default function HashtagPage() {
@@ -85,6 +86,7 @@ export default function HashtagPage() {
       <Container>
         <LeftContent>
           <Title data-test="hashtag-title"># {hashtag}</Title>
+
           {postsData && postsData.map(post => <Post data-test="post"
             key={post.id}
             id={post.id}

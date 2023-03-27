@@ -22,12 +22,13 @@ export default function TimelinePage() {
   const [loading, setLoading] = useState(false);
   const [initialCount, setInitialCount] = useState();
   const [finalCount, setFinalCount] = useState();
+  const [click, setClick] = useState(false);
   const config = {
     headers: {
       Authorization: `Bearer ${token || localStorage.getItem("token")}`,
     },
   };
-  // console.log(posts);
+  console.log(posts);
   async function getAllUsersPosts() {
     try {
       const request = await axios.get(
@@ -50,8 +51,6 @@ export default function TimelinePage() {
       navigate("/");
     }
   }
-
-  console.log(initialCount, finalCount);
 
   async function getCountPosts() {
     try {
@@ -88,13 +87,14 @@ export default function TimelinePage() {
         setUserId(res.data.id);
         setLoading(true);
         getAllUsersPosts();
+        getCountPosts();
         setAvatar(res.data.image);
       })
       .catch((err) => {
         console.log(err);
         alert(err.response.data);
       });
-  }, []);
+  }, [click]);
 
   function likeDislikePost(id, likedByUser) {
     const body = {};
@@ -114,7 +114,6 @@ export default function TimelinePage() {
       });
     }
   }
-
   useInterval(() => {
     getCountPosts();
   }, 15000);
@@ -129,7 +128,7 @@ export default function TimelinePage() {
           {finalCount > 0 ? (
             <LoadButton
               onClick={() => {
-                setFinalCount(0);
+                setClick(!click);
                 getAllUsersPosts();
               }}
               finalCount={finalCount}
