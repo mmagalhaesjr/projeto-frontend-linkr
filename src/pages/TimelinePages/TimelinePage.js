@@ -13,6 +13,7 @@ import { checkToken } from '../../components/CheckToken/CheckToken.js';
 
 export default function TimelinePage() {
   const navigate = useNavigate();
+  const [follows, setFollows] = useState([])
   const [posts, setPosts] = useState([]);
   const [userId, setUserId] = useState();
   const [avatar, setAvatar] = useState('https://filestore.community.support.microsoft.com/api/images/6061bd47-2818-4f2b-b04a-5a9ddb6f6467?upload=true');
@@ -23,7 +24,7 @@ export default function TimelinePage() {
       Authorization: `Bearer ${token || localStorage.getItem('token')}`,
     }
   };
-console.log(posts)
+console.log(follows)
   async function getAllUsersPosts() {
 
     try {
@@ -57,6 +58,7 @@ console.log(posts)
         setLoading(true);
         getAllUsersPosts();
         setAvatar(res.data.image)
+        setFollows(res.data.following_list)
       })
       .catch((err) => {
         console.log(err)
@@ -110,6 +112,7 @@ console.log(posts)
               userId={userId}
               repostedById={post.repostedById}
               route={'timeline'}
+              follows={follows}
               >
 
             </Post>)}
