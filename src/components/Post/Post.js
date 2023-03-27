@@ -36,7 +36,7 @@ export default function Post(props) {
       Authorization: `Bearer ${token || localStorage.getItem('token')}`,
     }
   };
-  const { id, post, user_image, username, likes, likedByUser, usersLiked, post_url, likeDislikePost, comments_count, allcomments, post_id_user, getAllUsersPosts, reposts, repostedBy, userId, repostedById, route } = props
+  const { id, post, user_image, username, likes, likedByUser, usersLiked, post_url, likeDislikePost, comments_count, allcomments, post_id_user, getAllUsersPosts, reposts, repostedBy, userId, repostedById, route, follows } = props
   const navigate = useNavigate();
   let listLikes = "";
   const [linkPreviewInfos, setLinkPreviewInfos] = useState({
@@ -207,11 +207,12 @@ export default function Post(props) {
               <div>
                 <div className="authorComment">
                   <h2>{c.username}</h2>
+
                   {post_id_user === c.id_user
                     &&
                     <h3>• post’s author</h3>
                   }
-
+                  <h3>{follows.includes(c.id_user) && "• following"}</h3>
                 </div>
 
                 <p>{c.comment}</p>

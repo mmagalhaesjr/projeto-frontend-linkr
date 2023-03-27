@@ -13,6 +13,7 @@ import useInterval from "use-interval";
 
 export default function TimelinePage() {
   const navigate = useNavigate();
+  const [follows, setFollows] = useState([])
   const [posts, setPosts] = useState([]);
   const [userId, setUserId] = useState();
   const [avatar, setAvatar] = useState(
@@ -28,7 +29,7 @@ export default function TimelinePage() {
       Authorization: `Bearer ${token || localStorage.getItem("token")}`,
     },
   };
-  console.log(posts);
+
   async function getAllUsersPosts() {
     try {
       const request = await axios.get(
@@ -86,7 +87,8 @@ export default function TimelinePage() {
       .then((res) => {
         setUserId(res.data.id);
         setLoading(true);
-        getAllUsersPosts();
+        getAllUsersPosts();   
+        setFollows(res.data.following_list)
         getCountPosts();
         setAvatar(res.data.image);
       })
@@ -158,6 +160,7 @@ export default function TimelinePage() {
               userId={userId}
               repostedById={post.repostedById}
               route={'timeline'}
+              follows={follows}
               >
 
             </Post>)}
