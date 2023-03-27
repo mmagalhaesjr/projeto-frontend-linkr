@@ -14,6 +14,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function TimelinePage() {
   const navigate = useNavigate();
+  const [follows, setFollows] = useState([]);
   const [posts, setPosts] = useState([]);
   const [userId, setUserId] = useState();
   const [avatar, setAvatar] = useState(
@@ -29,7 +30,7 @@ export default function TimelinePage() {
       Authorization: `Bearer ${token || localStorage.getItem("token")}`,
     },
   };
-  console.log(posts);
+
   async function getAllUsersPosts() {
     try {
       const request = await axios.get(
@@ -75,7 +76,9 @@ export default function TimelinePage() {
         `${process.env.REACT_APP_API_URL}/posts/pages?page=${page}`,
         config
       );
-      setPosts(...posts,request.data);
+      // setPosts(...posts, request.data); 
+      setPosts([...posts,request.data]); 
+      
       setLoading(false);
       setPage(page + 1);
     } catch (_) {
@@ -107,6 +110,7 @@ export default function TimelinePage() {
         setUserId(res.data.id);
         setLoading(true);
         getAllUsersPosts();
+        setFollows(res.data.following_list);
         getCountPosts();
         setPage(page + 1);
         setAvatar(res.data.image);
@@ -160,7 +164,7 @@ export default function TimelinePage() {
           {loading && <h3>Loading...</h3>}
           <InfiniteScroll
             dataLength={posts.length}
-            next={()=>getPostsByPage()}
+            next={() => getPostsByPage()}
             hasMore={true}
             loader={<h4>Loading...</h4>}
             endMessage={
@@ -187,13 +191,14 @@ export default function TimelinePage() {
                   usersLiked={post.names_liked}
                   comments_count={post.comments_count}
                   allcomments={post.allcomments}
-                  post_user_id={post.post.id_user}
+                  post_id_user={post.id_user}
                   getAllUsersPosts={getAllUsersPosts}
                   reposts={post.reposts}
                   repostedBy={post.repostedByName}
                   userId={userId}
                   repostedById={post.repostedById}
                   route={"timeline"}
+                  follows={follows}
                 ></Post>
               ))}
           </InfiniteScroll>
