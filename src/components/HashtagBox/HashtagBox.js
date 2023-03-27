@@ -31,7 +31,7 @@ export default function HashtagBox({getAllUsersPosts}) {
       <Title>trending</Title>
       <Diviser />
       {data?.map((el,i) => (
-        <StyledLink data-test="hashtag" key={i} to={`/hashtag/${el}`}># {el}</StyledLink>
+        <StyledLink data-test="hashtag" key={i} to={`/hashtag/${el}`}>#{el}</StyledLink>
       ))}
     </Box>
   );

@@ -13,7 +13,7 @@ import useInterval from "use-interval";
 
 export default function TimelinePage() {
   const navigate = useNavigate();
-  const [follows, setFollows] = useState([])
+  const [follows, setFollows] = useState([]);
   const [posts, setPosts] = useState([]);
   const [userId, setUserId] = useState();
   const [avatar, setAvatar] = useState(
@@ -23,7 +23,6 @@ export default function TimelinePage() {
   const [loading, setLoading] = useState(false);
   const [initialCount, setInitialCount] = useState();
   const [finalCount, setFinalCount] = useState();
-  const [click, setClick] = useState(false);
   const config = {
     headers: {
       Authorization: `Bearer ${token || localStorage.getItem("token")}`,
@@ -42,6 +41,7 @@ export default function TimelinePage() {
       );
       setPosts(request.data);
       setInitialCount(qtdInit.data.num_posts);
+      setFinalCount(0)
       setLoading(false);
     } catch (_) {
       alert(
@@ -87,8 +87,8 @@ export default function TimelinePage() {
       .then((res) => {
         setUserId(res.data.id);
         setLoading(true);
-        getAllUsersPosts();   
-        setFollows(res.data.following_list)
+        getAllUsersPosts();
+        setFollows(res.data.following_list);
         getCountPosts();
         setAvatar(res.data.image);
       })
@@ -96,7 +96,7 @@ export default function TimelinePage() {
         console.log(err);
         alert(err.response.data);
       });
-  }, [click]);
+  }, []);
 
   function likeDislikePost(id, likedByUser) {
     const body = {};
@@ -116,6 +116,7 @@ export default function TimelinePage() {
       });
     }
   }
+
   useInterval(() => {
     getCountPosts();
   }, 15000);
@@ -130,7 +131,6 @@ export default function TimelinePage() {
           {finalCount > 0 ? (
             <LoadButton
               onClick={() => {
-                setClick(!click);
                 getAllUsersPosts();
               }}
               finalCount={finalCount}
@@ -139,33 +139,37 @@ export default function TimelinePage() {
             ""
           )}
           {loading && <h3>Loading...</h3>}
-          {posts && posts.length > 0 && posts.map(post =>
-            <Post
-              key={post.id}
-              id={post.id}
-              post={post.post}
-              user_image={post.user_image}
-              username={post.username}
-              likes={post.likes}
-              likedByUser={post.id_liked ? post.id_liked.includes(userId) : false}
-              post_url={post.post_url}
-              likeDislikePost={likeDislikePost}
-              usersLiked={post.names_liked}
-              comments_count={post.comments_count}
-              allcomments={post.allcomments}
-              post_id_user={post.id_user}
-              getAllUsersPosts={getAllUsersPosts}
-              reposts={post.reposts}
-              repostedBy={post.repostedByName}
-              userId={userId}
-              repostedById={post.repostedById}
-              route={'timeline'}
-              follows={follows}
-              >
-
-            </Post>)}
-          {posts.length === 0 && loading === false && <h3 data-test="message">There are no posts yet</h3>}
-
+            {posts &&
+              posts.length > 0 &&
+              posts.map((post) => (
+                <Post
+                  key={post.id}
+                  id={post.id}
+                  post={post.post}
+                  user_image={post.user_image}
+                  username={post.username}
+                  likes={post.likes}
+                  likedByUser={
+                    post.id_liked ? post.id_liked.includes(userId) : false
+                  }
+                  post_url={post.post_url}
+                  likeDislikePost={likeDislikePost}
+                  usersLiked={post.names_liked}
+                  comments_count={post.comments_count}
+                  allcomments={post.allcomments}
+                  post_id_user={post.id_user}
+                  getAllUsersPosts={getAllUsersPosts}
+                  reposts={post.reposts}
+                  repostedBy={post.repostedByName}
+                  userId={userId}
+                  repostedById={post.repostedById}
+                  route={"timeline"}
+                  follows={follows}
+                ></Post>
+              ))}
+          {posts.length === 0 && loading === false && (
+            <h3 data-test="message">There are no posts yet</h3>
+          )}
         </StyledContainer>
         <HashtagBox getAllUsersPosts={getAllUsersPosts} />
       </StyledMain>
