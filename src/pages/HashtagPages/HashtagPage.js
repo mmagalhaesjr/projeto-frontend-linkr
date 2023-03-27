@@ -59,6 +59,7 @@ export default function HashtagPage() {
       .get(`${process.env.REACT_APP_API_URL}/me`, config)
       .then((res) => {
         setUserId(res.data.id);
+        setFollows(res.data.following_list);
         listAllHashtagsPosts();
       })
       .catch((err) => {

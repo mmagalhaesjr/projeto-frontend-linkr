@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { ReactTagify } from "react-tagify";
 import { VscHeart, VscHeartFilled } from "react-icons/vsc";
-import { BiRepost } from 'react-icons/bi';
+import { BiRepost } from "react-icons/bi";
 import {
   StyledPost,
   StyledLink,
@@ -16,27 +16,44 @@ import {
   StyledNewComments,
   StyledComment,
   RepostedBy,
-  BlockIfReposted
-} from './styled.js';
-import { Tooltip } from 'react-tooltip';
-import 'react-tooltip/dist/react-tooltip.css'
+  BlockIfReposted,
+} from "./styled.js";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 import { AiOutlineComment } from "react-icons/ai";
-import Context from '../../context/Context.js';
-import Repost from '../Repost/Repost.js';
-
-
+import Context from "../../context/Context.js";
+import Repost from "../Repost/Repost.js";
 
 export default function Post(props) {
-
-  const [msgAberto, setMsgAberto] = useState(false)
-  const [newComment, setNewComment] = useState("")
+  const [msgAberto, setMsgAberto] = useState(false);
+  const [newComment, setNewComment] = useState("");
   const { token } = useContext(Context);
   const config = {
     headers: {
-      Authorization: `Bearer ${token || localStorage.getItem('token')}`,
-    }
+      Authorization: `Bearer ${token || localStorage.getItem("token")}`,
+    },
   };
-  const { id, post, user_image, username, likes, likedByUser, usersLiked, post_url, likeDislikePost, comments_count, allcomments, post_id_user, getAllUsersPosts, reposts, repostedBy, userId, repostedById, route, follows } = props
+  const {
+    id,
+    post,
+    user_image,
+    username,
+    likes,
+    likedByUser,
+    usersLiked,
+    post_url,
+    likeDislikePost,
+    comments_count,
+    allcomments,
+    post_id_user,
+    getAllUsersPosts,
+    reposts,
+    repostedBy,
+    userId,
+    repostedById,
+    route,
+    follows,
+  } = props;
   const navigate = useNavigate();
   let listLikes = "";
   const [linkPreviewInfos, setLinkPreviewInfos] = useState({
@@ -107,32 +124,31 @@ export default function Post(props) {
 
   async function sendComment() {
     if (newComment) {
-      const body = { comment: newComment }
-      const URL = `${process.env.REACT_APP_API_URL}/comment/${id}`
+      const body = { comment: newComment };
+      const URL = `${process.env.REACT_APP_API_URL}/comment/${id}`;
       try {
         await axios.post(URL, body, config);
         setNewComment("");
-        getAllUsersPosts()
+        getAllUsersPosts();
       } catch (_) {
-        alert("An error occured while trying to comment the post, please refresh the page")
+        alert(
+          "An error occured while trying to comment the post, please refresh the page"
+        );
       }
     }
-
   }
-
 
   return (
     <StyledContainer key={id} data-test="post">
       <StyledPost isReposted={repostedBy}>
-
         {repostedBy && <BlockIfReposted />}
 
-        {repostedBy && <RepostedBy>
-
-          <BiRepost />
-          <h4>Re-posted by {repostedById === userId ? 'you' : repostedBy}</h4>
-
-        </RepostedBy>}
+        {repostedBy && (
+          <RepostedBy>
+            <BiRepost />
+            <h4>Re-posted by {repostedById === userId ? "you" : repostedBy}</h4>
+          </RepostedBy>
+        )}
 
         <StyledLeftDiv>
           <img src={user_image} alt="imagem" />
@@ -144,32 +160,40 @@ export default function Post(props) {
             {likedByUser === true ? <VscHeartFilled /> : <VscHeart />}
           </StyledIcon>
 
-
-
-          <p data-test="counter" data-tooltip-id={id} className="like-count" data-tooltip-content={listLikes} data-tooltip-variant="light">
+          <p
+            data-test="counter"
+            data-tooltip-id={id}
+            className="like-count"
+            data-tooltip-content={listLikes}
+            data-tooltip-variant="light"
+          >
             {likes} likes
           </p>
           <div data-test="tooltip">
-            <Tooltip id={id} place='bottom' data-test="tooltip" style={{ 'font-size': '11px' }} />
-
+            <Tooltip
+              id={id}
+              place="bottom"
+              data-test="tooltip"
+              style={{ "font-size": "11px" }}
+            />
           </div>
 
           <StyledIcon data-test="comment-btn">
-            <AiOutlineComment onClick={() => (msgAberto ? setMsgAberto(false) : setMsgAberto(true))} />
-
+            <AiOutlineComment
+              onClick={() =>
+                msgAberto ? setMsgAberto(false) : setMsgAberto(true)
+              }
+            />
           </StyledIcon>
-          <p data-test="comment-counter">{comments_count} comments
-          </p>
+          <p data-test="comment-counter">{comments_count} comments</p>
 
           <Repost id={id} reposts={reposts} route={route} />
-
         </StyledLeftDiv>
 
         <StyledRightDiv>
-          <Link to={`/user/${id}`} data-test="username">{username}</Link>
-          {post !== "" &&
-            <h3 data-test="description" >{post}</h3>
-          }
+          <Link to={`/user/${id}`} data-test="username">
+            {username}
+          </Link>
           <ReactTagify
             tagStyle={tagStyle}
             tagClicked={(tag) => {
@@ -177,6 +201,7 @@ export default function Post(props) {
               return navigate(`/hashtag/${cutTag}`);
             }}
           >
+            {post !== "" && <h3 data-test="description">{post}</h3>}
           </ReactTagify>
           <StyledLink to={post_url} target="_blank" data-test="link">
             <div className="link">
@@ -188,8 +213,8 @@ export default function Post(props) {
               src={
                 linkPreviewInfos.images.length > 0
                   ? linkPreviewInfos.images[
-                  Math.floor(Math.random() * linkPreviewInfos.images.length)
-                  ]
+                      Math.floor(Math.random() * linkPreviewInfos.images.length)
+                    ]
                   : "https://i.pinimg.com/originals/9d/1a/a7/9d1aa76c041ff6bf890a90aa92addd76.png"
               }
               alt="imagem"
@@ -198,35 +223,35 @@ export default function Post(props) {
         </StyledRightDiv>
       </StyledPost>
 
-
-      {msgAberto &&
+      {msgAberto && (
         <StyledCommentsContainer data-test="comment-box">
-          {allcomments?.map((c) =>
+          {allcomments?.map((c) => (
             <StyledComment key={c.id} data-test="comment">
               <img src={c.user_image} alt="imagem" />
               <div>
                 <div className="authorComment">
                   <h2>{c.username}</h2>
 
-                  {post_id_user === c.id_user
-                    &&
-                    <h3>• post’s author</h3>
-                  }
+                  {post_id_user === c.id_user && <h3>• post’s author</h3>}
                   <h3>{follows.includes(c.id_user) && "• following"}</h3>
                 </div>
 
                 <p>{c.comment}</p>
               </div>
             </StyledComment>
-          )}
+          ))}
           <StyledNewComments>
             <img src={user_image} alt="imagem" />
-            <input data-test="comment-input" placeholder="write a comment..." value={newComment} onChange={(e) => setNewComment(e.target.value)}></input>
+            <input
+              data-test="comment-input"
+              placeholder="write a comment..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            ></input>
             <StyledSendIcon data-test="comment-submit" onClick={sendComment} />
           </StyledNewComments>
         </StyledCommentsContainer>
-      }
-
+      )}
     </StyledContainer>
   );
 }

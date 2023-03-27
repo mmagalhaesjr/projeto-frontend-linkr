@@ -77,7 +77,7 @@ export default function TimelinePage() {
         config
       );
       // setPosts(...posts, request.data); 
-      setPosts([...posts,request.data]); 
+      setPosts(request.data); 
       
       setLoading(false);
       setPage(page + 1);
