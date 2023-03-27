@@ -10,7 +10,6 @@ import HashtagBox from "../../components/HashtagBox/HashtagBox";
 import { checkToken } from "../../components/CheckToken/CheckToken.js";
 import LoadButton from "../../components/LoadButton/LoadButton";
 import useInterval from "use-interval";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function TimelinePage() {
   const navigate = useNavigate();
@@ -24,7 +23,6 @@ export default function TimelinePage() {
   const [loading, setLoading] = useState(false);
   const [initialCount, setInitialCount] = useState();
   const [finalCount, setFinalCount] = useState();
-  const [page, setPage] = useState(0);
   const config = {
     headers: {
       Authorization: `Bearer ${token || localStorage.getItem("token")}`,
@@ -43,6 +41,7 @@ export default function TimelinePage() {
       );
       setPosts(request.data);
       setInitialCount(qtdInit.data.num_posts);
+      setFinalCount(0)
       setLoading(false);
     } catch (_) {
       alert(
@@ -70,27 +69,6 @@ export default function TimelinePage() {
     }
   }
 
-  async function getPostsByPage() {
-    try {
-      const request = await axios.get(
-        `${process.env.REACT_APP_API_URL}/posts/pages?page=${page}`,
-        config
-      );
-      // setPosts(...posts, request.data); 
-      setPosts(request.data); 
-      
-      setLoading(false);
-      setPage(page + 1);
-    } catch (_) {
-      alert(
-        "An error occured while trying to fetch the posts, please refresh the page to continue"
-      );
-      setToken(null);
-      localStorage.removeItem("token");
-      navigate("/");
-    }
-  }
-
   useEffect(() => {
     const tokenExists = checkToken();
     if (!tokenExists) {
@@ -112,7 +90,6 @@ export default function TimelinePage() {
         getAllUsersPosts();
         setFollows(res.data.following_list);
         getCountPosts();
-        setPage(page + 1);
         setAvatar(res.data.image);
       })
       .catch((err) => {
@@ -162,17 +139,6 @@ export default function TimelinePage() {
             ""
           )}
           {loading && <h3>Loading...</h3>}
-          <InfiniteScroll
-            dataLength={posts.length}
-            next={() => getPostsByPage()}
-            hasMore={true}
-            loader={<h4>Loading...</h4>}
-            endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
-          >
             {posts &&
               posts.length > 0 &&
               posts.map((post) => (
@@ -201,7 +167,6 @@ export default function TimelinePage() {
                   follows={follows}
                 ></Post>
               ))}
-          </InfiniteScroll>
           {posts.length === 0 && loading === false && (
             <h3 data-test="message">There are no posts yet</h3>
           )}
