@@ -137,35 +137,32 @@ export default function TimelinePage() {
             ""
           )}
           {loading && <h3>Loading...</h3>}
-          {posts &&
-            posts.length > 0 &&
-            posts.map((post) => (
-              <Post
-                key={post.id}
-                id={post.id}
-                post={post.post}
-                user_image={post.user_image}
-                username={post.username}
-                likes={post.likes}
-                likedByUser={
-                  post.id_liked ? post.id_liked.includes(userId) : false
-                }
-                post_url={post.post_url}
-                likeDislikePost={likeDislikePost}
-                usersLiked={post.names_liked}
-                comments_count={post.comments_count}
-                allcomments={post.allcomments}
-                post_user_id={post.post_user_id}
-                getAllUsersPosts={getAllUsersPosts}
-                reposts={post.reposts}
-                repostedBy={post.repostedByName}
-                userId={userId}
-                repostedById={post.repostedById}
-              ></Post>
-            ))}
-          {posts.length === 0 && loading === false && (
-            <h3 data-test="message">There are no posts yet</h3>
-          )}
+          {posts && posts.length > 0 && posts.map(post =>
+            <Post
+              key={post.id}
+              id={post.id}
+              post={post.post}
+              user_image={post.user_image}
+              username={post.username}
+              likes={post.likes}
+              likedByUser={post.id_liked ? post.id_liked.includes(userId) : false}
+              post_url={post.post_url}
+              likeDislikePost={likeDislikePost}
+              usersLiked={post.names_liked}
+              comments_count={post.comments_count}
+              allcomments={post.allcomments}
+              post_user_id={post.post.id_user}
+              getAllUsersPosts={getAllUsersPosts}
+              reposts={post.reposts}
+              repostedBy={post.repostedByName}
+              userId={userId}
+              repostedById={post.repostedById}
+              route={'timeline'}
+              >
+
+            </Post>)}
+          {posts.length === 0 && loading === false && <h3 data-test="message">There are no posts yet</h3>}
+
         </StyledContainer>
         <HashtagBox getAllUsersPosts={getAllUsersPosts} />
       </StyledMain>

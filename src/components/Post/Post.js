@@ -36,7 +36,7 @@ export default function Post(props) {
       Authorization: `Bearer ${token || localStorage.getItem('token')}`,
     }
   };
-  const { id, post, user_image, username, likes, likedByUser, usersLiked, post_url, likeDislikePost, comments_count, allcomments, post_user_id, getAllUsersPosts, reposts, repostedBy, userId, repostedById } = props
+  const { id, post, user_image, username, likes, likedByUser, usersLiked, post_url, likeDislikePost, comments_count, allcomments, post_user_id, getAllUsersPosts, reposts, repostedBy, userId, repostedById, route } = props
   const navigate = useNavigate();
   let listLikes = "";
   const [linkPreviewInfos, setLinkPreviewInfos] = useState({
@@ -131,8 +131,8 @@ export default function Post(props) {
 
           <BiRepost />
           <h4>Re-posted by {repostedById === userId ? 'you' : repostedBy}</h4>
-          
-          </RepostedBy>}
+
+        </RepostedBy>}
 
         <StyledLeftDiv>
           <img src={user_image} alt="imagem" />
@@ -149,7 +149,10 @@ export default function Post(props) {
           <p data-test="counter" data-tooltip-id={id} className="like-count" data-tooltip-content={listLikes} data-tooltip-variant="light">
             {likes} likes
           </p>
-          <Tooltip data-test="tooltip" id={id} place='bottom' style={{ 'font-size': '11px' }} />
+          <div data-test="tooltip">
+            <Tooltip id={id} place='bottom' data-test="tooltip" style={{ 'font-size': '11px' }} />
+
+          </div>
 
           <StyledIcon data-test="comment-btn">
             <AiOutlineComment onClick={() => (msgAberto ? setMsgAberto(false) : setMsgAberto(true))} />
@@ -158,7 +161,7 @@ export default function Post(props) {
           <p data-test="comment-counter">{comments_count} comments
           </p>
 
-          <Repost id={id} reposts={reposts} repostedBy={repostedBy} />
+          <Repost id={id} reposts={reposts} route={route} />
 
         </StyledLeftDiv>
 
