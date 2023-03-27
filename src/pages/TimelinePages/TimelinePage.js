@@ -24,7 +24,7 @@ export default function TimelinePage() {
       Authorization: `Bearer ${token || localStorage.getItem('token')}`,
     }
   };
-console.log(follows)
+
   async function getAllUsersPosts() {
 
     try {
