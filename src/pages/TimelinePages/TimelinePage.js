@@ -10,6 +10,7 @@ import HashtagBox from "../../components/HashtagBox/HashtagBox";
 import { checkToken } from "../../components/CheckToken/CheckToken.js";
 import LoadButton from "../../components/LoadButton/LoadButton";
 import useInterval from "use-interval";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function TimelinePage() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function TimelinePage() {
   const [loading, setLoading] = useState(false);
   const [initialCount, setInitialCount] = useState();
   const [finalCount, setFinalCount] = useState();
-  const [click, setClick] = useState(false);
+  const [page, setPage] = useState(0);
   const config = {
     headers: {
       Authorization: `Bearer ${token || localStorage.getItem("token")}`,
@@ -68,6 +69,25 @@ export default function TimelinePage() {
     }
   }
 
+  async function getPostsByPage() {
+    try {
+      const request = await axios.get(
+        `${process.env.REACT_APP_API_URL}/posts/pages?page=${page}`,
+        config
+      );
+      setPosts(...posts,request.data);
+      setLoading(false);
+      setPage(page + 1);
+    } catch (_) {
+      alert(
+        "An error occured while trying to fetch the posts, please refresh the page to continue"
+      );
+      setToken(null);
+      localStorage.removeItem("token");
+      navigate("/");
+    }
+  }
+
   useEffect(() => {
     const tokenExists = checkToken();
     if (!tokenExists) {
@@ -88,13 +108,14 @@ export default function TimelinePage() {
         setLoading(true);
         getAllUsersPosts();
         getCountPosts();
+        setPage(page + 1);
         setAvatar(res.data.image);
       })
       .catch((err) => {
         console.log(err);
         alert(err.response.data);
       });
-  }, [click]);
+  }, []);
 
   function likeDislikePost(id, likedByUser) {
     const body = {};
@@ -114,6 +135,7 @@ export default function TimelinePage() {
       });
     }
   }
+
   useInterval(() => {
     getCountPosts();
   }, 15000);
@@ -128,7 +150,6 @@ export default function TimelinePage() {
           {finalCount > 0 ? (
             <LoadButton
               onClick={() => {
-                setClick(!click);
                 getAllUsersPosts();
               }}
               finalCount={finalCount}
@@ -137,32 +158,48 @@ export default function TimelinePage() {
             ""
           )}
           {loading && <h3>Loading...</h3>}
-          {posts && posts.length > 0 && posts.map(post =>
-            <Post
-              key={post.id}
-              id={post.id}
-              post={post.post}
-              user_image={post.user_image}
-              username={post.username}
-              likes={post.likes}
-              likedByUser={post.id_liked ? post.id_liked.includes(userId) : false}
-              post_url={post.post_url}
-              likeDislikePost={likeDislikePost}
-              usersLiked={post.names_liked}
-              comments_count={post.comments_count}
-              allcomments={post.allcomments}
-              post_user_id={post.post.id_user}
-              getAllUsersPosts={getAllUsersPosts}
-              reposts={post.reposts}
-              repostedBy={post.repostedByName}
-              userId={userId}
-              repostedById={post.repostedById}
-              route={'timeline'}
-              >
-
-            </Post>)}
-          {posts.length === 0 && loading === false && <h3 data-test="message">There are no posts yet</h3>}
-
+          <InfiniteScroll
+            dataLength={posts.length}
+            next={()=>getPostsByPage()}
+            hasMore={true}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p style={{ textAlign: "center" }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+          >
+            {posts &&
+              posts.length > 0 &&
+              posts.map((post) => (
+                <Post
+                  key={post.id}
+                  id={post.id}
+                  post={post.post}
+                  user_image={post.user_image}
+                  username={post.username}
+                  likes={post.likes}
+                  likedByUser={
+                    post.id_liked ? post.id_liked.includes(userId) : false
+                  }
+                  post_url={post.post_url}
+                  likeDislikePost={likeDislikePost}
+                  usersLiked={post.names_liked}
+                  comments_count={post.comments_count}
+                  allcomments={post.allcomments}
+                  post_user_id={post.post.id_user}
+                  getAllUsersPosts={getAllUsersPosts}
+                  reposts={post.reposts}
+                  repostedBy={post.repostedByName}
+                  userId={userId}
+                  repostedById={post.repostedById}
+                  route={"timeline"}
+                ></Post>
+              ))}
+          </InfiniteScroll>
+          {posts.length === 0 && loading === false && (
+            <h3 data-test="message">There are no posts yet</h3>
+          )}
         </StyledContainer>
         <HashtagBox getAllUsersPosts={getAllUsersPosts} />
       </StyledMain>

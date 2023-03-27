@@ -7,7 +7,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Context from "../../context/Context";
 import { checkToken } from "../../components/CheckToken/CheckToken.js";
-import InfiniteScroll from 'react-infinite-scroller';
+
 
 
 export default function HashtagPage() {
