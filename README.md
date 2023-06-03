@@ -33,7 +33,6 @@ As seguintes ferramentas foram utilizados na construção do projeto:
   <img style='margin: 5px;' src="https://img.shields.io/badge/node-JOI-%2320232a.svg?&style=for-the-badge&logo=Node.js"/>
   <img style='margin: 5px;' src="https://img.shields.io/badge/node-bcrypt-%2320232a.svg?&style=for-the-badge&logo=Node.js"/>
   <img style='margin: 5px;' src="https://img.shields.io/badge/.env-%2320232a.svg?&style=for-the-badge&logo=.ENV"/>
-  <img style='margin: 5px;' src="https://img.shields.io/badge/JWT-JSON%20Web%20Tokens-%2320232a.svg?&style=for-the-badge&logo=JSON%20Web%20Tokens"/>
 </p>
 
 ## Iniciando
